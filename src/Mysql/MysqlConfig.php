@@ -210,6 +210,9 @@ class MysqlConfig
      */
     public function buildConfig()
     {
+        if (!extension_loaded('mysqli')) {
+            throw new MysqlException("缺少mysqli扩展");
+        }
         if ($this->poolMaxNumber < 1) {
             throw new MysqlException("poolMaxNumber必须大于1");
         }
