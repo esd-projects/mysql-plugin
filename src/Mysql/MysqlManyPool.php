@@ -9,7 +9,6 @@
 namespace GoSwoole\BaseServer\Plugins\Mysql;
 
 
-use GoSwoole\BaseServer\Exception;
 use MysqliDb;
 
 class MysqlManyPool
@@ -43,7 +42,7 @@ class MysqlManyPool
     {
         $default = $this->getPool();
         if ($default == null) {
-            throw new Exception("没有设置默认的mysql");
+            throw new MysqlException("没有设置默认的mysql");
         }
         return $this->getPool()->db();
     }

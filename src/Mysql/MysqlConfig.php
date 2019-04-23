@@ -206,12 +206,12 @@ class MysqlConfig
 
     /**
      * 构建配置
-     * @throws ConfigException
+     * @throws MysqlException
      */
     public function buildConfig()
     {
-        if($this->poolMaxNumber<1){
-            throw new ConfigException("poolMaxNumber必须大于1");
+        if ($this->poolMaxNumber < 1) {
+            throw new MysqlException("poolMaxNumber必须大于1");
         }
         return ['host' => $this->host,
             'username' => $this->username,
