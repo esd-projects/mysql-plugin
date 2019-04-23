@@ -6,8 +6,8 @@
  * Time: 14:36
  */
 
-use GoSwoole\BaseServer\Plugins\Mysql\MysqlConfig;
-use GoSwoole\BaseServer\Plugins\Mysql\MysqlPool;
+use GoSwoole\Plugins\Mysql\MysqlConfig;
+use GoSwoole\Plugins\Mysql\MysqlPool;
 
 require __DIR__ . '/../vendor/autoload.php';
 

@@ -6,10 +6,8 @@
  * Time: 10:49
  */
 
-namespace GoSwoole\BaseServer\Plugins\Mysql;
+namespace GoSwoole\Plugins\Mysql;
 
-
-use GoSwoole\BaseServer\Server\Exception\ConfigException;
 
 class MysqlConfig
 {

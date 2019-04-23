@@ -6,8 +6,7 @@
  * Time: 10:30
  */
 
-namespace GoSwoole\BaseServer\Plugins\Mysql;
-
+namespace GoSwoole\Plugins\Mysql;
 
 use GoSwoole\BaseServer\Server\Context;
 use GoSwoole\BaseServer\Server\Plugin\AbstractPlugin;

@@ -6,7 +6,7 @@
  * Time: 9:55
  */
 
-namespace GoSwoole\BaseServer\Plugins\Mysql;
+namespace GoSwoole\Plugins\Mysql;
 
 
 use GoSwoole\BaseServer\Coroutine\Channel;
@@ -26,7 +26,7 @@ class MysqlPool
     /**
      * MysqlPool constructor.
      * @param MysqlConfig $mysqlConfig
-     * @throws \GoSwoole\BaseServer\Server\Exception\ConfigException
+     * @throws MysqlException
      */
     public function __construct(MysqlConfig $mysqlConfig)
     {

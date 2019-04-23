@@ -6,7 +6,7 @@
  * Time: 10:59
  */
 
-namespace GoSwoole\BaseServer\Plugins\Mysql;
+namespace GoSwoole\Plugins\Mysql;
 
 
 use MysqliDb;
@@ -36,6 +36,7 @@ class MysqlManyPool
 
     /**
      * @return MysqliDb
+     * @throws MysqlException
      * @throws \GoSwoole\BaseServer\Exception
      */
     public function db(): MysqliDb

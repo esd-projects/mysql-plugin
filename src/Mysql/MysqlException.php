@@ -6,7 +6,7 @@
  * Time: 11:45
  */
 
-namespace GoSwoole\BaseServer\Plugins\Mysql;
+namespace GoSwoole\Plugins\Mysql;
 
 
 use GoSwoole\BaseServer\Exception;
