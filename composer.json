@@ -1,0 +1,23 @@
+{
+  "require": {
+    "go-swoole/base-server":"dev-master",
+    "thingengineer/mysqli-database-class": "dev-master"
+  },
+  "autoload": {
+    "psr-4": {
+      "GoSwoole\\BaseServer\\Plugins\\": "src/"
+    }
+  },
+  "authors": [
+    {
+      "name": "tmtbe",
+      "email": "896369042@qq.com",
+      "homepage": "https://github.com/tmtbe"
+    }
+  ],
+  "name": "go-swoole/mysql-plugin",
+  "type": "library",
+  "keywords": ["server", "swoole"],
+  "description": "mysql-plugin",
+  "license": "MIT"
+}
