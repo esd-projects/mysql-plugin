@@ -28,6 +28,8 @@ trait GetMysql
             } else {
                 throw new MysqlException("没有找到名为{$name}的mysql连接池");
             }
+        }else{
+            return $db;
         }
     }
 }
