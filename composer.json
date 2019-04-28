@@ -1,6 +1,6 @@
 {
   "require": {
-    "go-swoole/base-server":"^0.1",
+    "go-swoole/base-server":"~0.1",
     "thingengineer/mysqli-database-class": "dev-master"
   },
   "autoload": {
