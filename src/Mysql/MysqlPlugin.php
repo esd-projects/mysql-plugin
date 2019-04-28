@@ -50,6 +50,7 @@ class MysqlPlugin extends AbstractPlugin
             $mysqlManyPool->addPool($mysqlPool);
         }
         $context->add("mysqlPool", $mysqlManyPool);
+        $this->ready();
     }
 
     /**
