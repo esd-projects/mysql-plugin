@@ -58,15 +58,16 @@ class MysqlPlugin extends AbstractPlugin
         //重新获取配置
         $this->configList = [];
         $configs = Server::$instance->getConfigContext()->get(MysqlConfig::key, []);
-        if(empty($configs)){
+        if (empty($configs)) {
             $this->warn("没有mysql配置");
         }
         foreach ($configs as $key => $value) {
-            $mysqlConfig = new MysqlConfig("","","","");
+            $mysqlConfig = new MysqlConfig("", "", "", "");
+            $mysqlConfig->setName($key);
             $this->configList[$key] = $mysqlConfig->buildFromConfig($value);
             $mysqlPool = new MysqlPool($mysqlConfig);
             $mysqlManyPool->addPool($mysqlPool);
-            $this->debug("已添加名为 $key 的Mysql连接池");
+            $this->debug("已添加名为 {$mysqlConfig->getName()} 的Mysql连接池");
         }
         $context->add("mysqlPool", $mysqlManyPool);
         $this->ready();

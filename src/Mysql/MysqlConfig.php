@@ -219,6 +219,9 @@ class MysqlConfig extends BaseConfig
         if ($this->poolMaxNumber < 1) {
             throw new MysqlException("poolMaxNumber必须大于1");
         }
+        if(empty($this->name)){
+            throw new MysqlException("name必须设置");
+        }
         if(empty($this->host)){
             throw new MysqlException("host必须设置");
         }
