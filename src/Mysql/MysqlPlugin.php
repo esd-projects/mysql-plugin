@@ -66,6 +66,7 @@ class MysqlPlugin extends AbstractPlugin
             $this->configList[$key] = $mysqlConfig->buildFromConfig($value);
             $mysqlPool = new MysqlPool($mysqlConfig);
             $mysqlManyPool->addPool($mysqlPool);
+            $this->debug("已添加名为 $key 的Mysql连接池");
         }
         $context->add("mysqlPool", $mysqlManyPool);
         $this->ready();
