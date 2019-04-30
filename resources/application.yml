@@ -1,0 +1,16 @@
+goswoole:
+  port:
+    http:
+      name: http
+      host: 0.0.0.0
+      port: 8080
+      sock_type: 1
+      open_http_protocol: true
+
+mysql:
+  default:
+      host: 'mysql-aliyun.dev.svc.cluster.local'
+      username: 'huiyi'
+      password: 'huiyi@123'
+      db: 'huiyi_callcenter'
+      prefix: "t_"
