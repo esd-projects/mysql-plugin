@@ -23,7 +23,6 @@ trait GetMysql
             $mysqlPool = getDeepContextValueByClassName(MysqlManyPool::class);
             if ($mysqlPool instanceof MysqlManyPool) {
                 $db = $mysqlPool->getPool($name)->db();
-                setContextValue("MysqliDb:$name", $db);
                 return $db;
             } else {
                 throw new MysqlException("没有找到名为{$name}的mysql连接池");

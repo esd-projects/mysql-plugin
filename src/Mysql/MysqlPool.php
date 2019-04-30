@@ -45,13 +45,13 @@ class MysqlPool
      */
     public function db(): MysqliDb
     {
-        $db = getContextValueByClassName(MysqliDb::class);
+        $db = getContextValue("MysqliDb:{$this->getMysqlConfig()->getName()}");
         if ($db == null) {
             $db = $this->pool->pop();
             defer(function () use ($db) {
                 $this->pool->push($db);
             });
-            setContextValue("mysqliDb", $db);
+            setContextValue("MysqliDb:{$this->getMysqlConfig()->getName()}", $db);
         }
         return $db;
     }
