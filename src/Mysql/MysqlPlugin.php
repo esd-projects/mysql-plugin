@@ -88,4 +88,12 @@ class MysqlPlugin extends AbstractPlugin
     {
         $this->configList = $configList;
     }
+
+    /**
+     * @param MysqlConfig $mysqlConfig
+     */
+    public function addConfigList(MysqlConfig $mysqlConfig): void
+    {
+        $this->configList[$mysqlConfig->getName()] = $mysqlConfig;
+    }
 }
