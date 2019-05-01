@@ -19,5 +19,11 @@
   "type": "library",
   "keywords": ["server", "swoole"],
   "description": "mysql-plugin",
-  "license": "MIT"
+  "license": "MIT",
+  "repositories": {
+    "packagist": {
+      "type": "composer",
+      "url": "https://packagist.laravel-china.org"
+    }
+  }
 }
