@@ -42,6 +42,7 @@ class MysqlPlugin extends AbstractPlugin
         foreach ($this->configList as $config) {
             $config->merge();
         }
+        $this->setToDIContainer(\MysqliDb::class, new MysqliDbProxy());
         return;
     }
 
@@ -70,8 +71,8 @@ class MysqlPlugin extends AbstractPlugin
             $this->debug("已添加名为 {$mysqlConfig->getName()} 的Mysql连接池");
         }
         $context->add("mysqlPool", $mysqlManyPool);
-        $this->setToDIContainer(MysqlManyPool::class,$mysqlManyPool);
-        $this->setToDIContainer(MysqlPool::class,$mysqlManyPool->getPool());
+        $this->setToDIContainer(MysqlManyPool::class, $mysqlManyPool);
+        $this->setToDIContainer(MysqlPool::class, $mysqlManyPool->getPool());
         $this->ready();
     }
 
