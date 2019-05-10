@@ -12,6 +12,8 @@ use GoSwoole\BaseServer\Plugins\Logger\GetLogger;
 use GoSwoole\BaseServer\Server\Context;
 use GoSwoole\BaseServer\Server\Plugin\AbstractPlugin;
 use GoSwoole\BaseServer\Server\Server;
+use GoSwoole\Plugins\Aop\AopPlugin;
+use GoSwoole\Plugins\Mysql\Aspect\MysqlAspect;
 
 class MysqlPlugin extends AbstractPlugin
 {
@@ -30,6 +32,12 @@ class MysqlPlugin extends AbstractPlugin
         return "Mysql";
     }
 
+    public function __construct()
+    {
+        parent::__construct();
+        $this->atAfter(AopPlugin::class);
+    }
+
     /**
      * 在服务启动前
      * @param Context $context
@@ -42,8 +50,13 @@ class MysqlPlugin extends AbstractPlugin
         foreach ($this->configList as $config) {
             $config->merge();
         }
-        $this->setToDIContainer(\MysqliDb::class, new MysqliDbProxy());
-        return;
+        $mysqliDbProxy = new MysqliDbProxy();
+        $this->setToDIContainer(\MysqliDb::class, $mysqliDbProxy);
+        $this->setToDIContainer(MysqliDb::class, $mysqliDbProxy);
+        $aopPlugin = Server::$instance->getPlugManager()->getPlug(AopPlugin::class);
+        if ($aopPlugin instanceof AopPlugin) {
+            $aopPlugin->getAopConfig()->addAspect(new MysqlAspect());
+        }
     }
 
     /**

@@ -9,8 +9,6 @@
 namespace GoSwoole\Plugins\Mysql;
 
 
-use MysqliDb;
-
 class MysqlManyPool
 {
     protected $poolList = [];

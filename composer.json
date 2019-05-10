@@ -1,7 +1,8 @@
 {
   "require": {
     "go-swoole/base-server":"~0.1",
-    "thingengineer/mysqli-database-class": "~2.9.2"
+    "thingengineer/mysqli-database-class": "~2.9.2",
+    "go-swoole/aop-plugin":"~0.1"
   },
   "autoload": {
     "psr-4": {

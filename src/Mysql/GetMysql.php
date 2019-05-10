@@ -1,7 +1,7 @@
 <?php
 /**
  * Created by PhpStorm.
- * User: administrato
+ * User: 白猫
  * Date: 2019/4/28
  * Time: 17:24
  */
@@ -13,7 +13,7 @@ trait GetMysql
 {
     /**
      * @param string $name
-     * @return \MysqliDb
+     * @return MysqliDb
      * @throws \GoSwoole\BaseServer\Exception
      */
     public function mysql($name = "default")
@@ -27,7 +27,7 @@ trait GetMysql
             } else {
                 throw new MysqlException("没有找到名为{$name}的mysql连接池");
             }
-        }else{
+        } else {
             return $db;
         }
     }

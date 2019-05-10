@@ -10,7 +10,6 @@ namespace GoSwoole\Plugins\Mysql;
 
 
 use GoSwoole\BaseServer\Coroutine\Channel;
-use MysqliDb;
 
 class MysqlPool
 {
