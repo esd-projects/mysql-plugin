@@ -19,32 +19,32 @@ class Propagation
      * 如果当前存在事务，则加入该事务；
      * 如果当前没有事务，则创建一个新的事务。
      */
-    const REQUIRED = 0;
+    const REQUIRED = "REQUIRED";
     /**
      * 如果当前存在事务，则加入该事务；
      * 如果当前没有事务，则以非事务的方式继续运行。
      */
-    const SUPPORTS = 1;
+    const SUPPORTS = "SUPPORTS";
     /**
      * 如果当前存在事务，则加入该事务；
      * 如果当前没有事务，则抛出异常。
      */
-    const MANDATORY = 2;
+    const MANDATORY = "MANDATORY";
     /**
      * 创建一个新的事务，如果当前存在事务，则把当前事务挂起。
      */
-    const REQUIRES_NEW = 3;
+    const REQUIRES_NEW = "REQUIRES_NEW";
     /**
      * 以非事务方式运行，如果当前存在事务，则把当前事务挂起。
      */
-    const NOT_SUPPORTED = 4;
+    const NOT_SUPPORTED = "NOT_SUPPORTED";
     /**
      * 以非事务方式运行，如果当前存在事务，则抛出异常。
      */
-    const NEVER = 5;
+    const NEVER = "NEVER";
     /**
      * 如果当前存在事务，则创建一个事务作为当前事务的嵌套事务来运行；
      * 如果当前没有事务，则该取值等价于 REQUIRED 。
      */
-    const NESTED = 6;
+    const NESTED = "NESTED";
 }

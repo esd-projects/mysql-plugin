@@ -76,7 +76,9 @@ class MysqlAspect implements Aspect
                     /**
                      * 以非事务方式运行，如果当前存在事务，则把当前事务挂起。
                      */
-                    $needNewGo = true;
+                    if ($_transaction_in_progress) {
+                        $needNewGo = true;
+                    }
                     $needTransaction = false;
                     break;
                 case Propagation::NEVER:
@@ -99,14 +101,23 @@ class MysqlAspect implements Aspect
                 $channel = new Channel();
                 goWithContext(function () use ($transactional, $invocation, $needTransaction, $channel) {
                     $db = $this->mysql($transactional->name);
-                    if ($needTransaction) {
-                        $result = $this->startTransaction($transactional, $db, $invocation);
-                    } else {
-                        $result = $invocation->proceed();
+                    try {
+                        if ($needTransaction) {
+                            $result = $this->startTransaction($transactional, $db, $invocation);
+                        } else {
+                            $result = $invocation->proceed();
+                        }
+                    } catch (\Throwable $e) {
+                        $result = $e;
                     }
                     $channel->push($result);
                 });
-                return $channel->pop();
+                $get = $channel->pop();
+                if ($get instanceof \Throwable) {
+                    throw $get;
+                } else {
+                    return $get;
+                }
             } else {
                 if ($needTransaction) {
                     return $this->startTransaction($transactional, $db, $invocation);
