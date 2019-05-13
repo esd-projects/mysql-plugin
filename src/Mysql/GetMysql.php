@@ -6,7 +6,7 @@
  * Time: 17:24
  */
 
-namespace GoSwoole\Plugins\Mysql;
+namespace ESD\Plugins\Mysql;
 
 
 trait GetMysql
@@ -14,7 +14,7 @@ trait GetMysql
     /**
      * @param string $name
      * @return MysqliDb
-     * @throws \GoSwoole\BaseServer\Exception
+     * @throws \ESD\BaseServer\Exception
      */
     public function mysql($name = "default")
     {

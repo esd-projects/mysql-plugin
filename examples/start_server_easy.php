@@ -1,7 +1,7 @@
 <?php
 
-use GoSwoole\BaseServer\ExampleClass\Server\DefaultServer;
-use GoSwoole\Plugins\Mysql\MysqlPlugin;
+use ESD\BaseServer\ExampleClass\Server\DefaultServer;
+use ESD\Plugins\Mysql\MysqlPlugin;
 
 require __DIR__ . '/../vendor/autoload.php';
 

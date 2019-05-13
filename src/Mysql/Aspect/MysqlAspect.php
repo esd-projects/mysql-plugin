@@ -6,18 +6,18 @@
  * Time: 10:05
  */
 
-namespace GoSwoole\Plugins\Mysql\Aspect;
+namespace ESD\Plugins\Mysql\Aspect;
 
 
 use Go\Aop\Aspect;
 use Go\Aop\Intercept\MethodInvocation;
 use Go\Lang\Annotation\Around;
-use GoSwoole\BaseServer\Coroutine\Channel;
-use GoSwoole\Plugins\Mysql\Annotation\Isolation;
-use GoSwoole\Plugins\Mysql\Annotation\Propagation;
-use GoSwoole\Plugins\Mysql\Annotation\Transactional;
-use GoSwoole\Plugins\Mysql\GetMysql;
-use GoSwoole\Plugins\Mysql\TransactionException;
+use ESD\BaseServer\Coroutine\Channel;
+use ESD\Plugins\Mysql\Annotation\Isolation;
+use ESD\Plugins\Mysql\Annotation\Propagation;
+use ESD\Plugins\Mysql\Annotation\Transactional;
+use ESD\Plugins\Mysql\GetMysql;
+use ESD\Plugins\Mysql\TransactionException;
 
 class MysqlAspect implements Aspect
 {
@@ -26,9 +26,9 @@ class MysqlAspect implements Aspect
     /**
      * @param MethodInvocation $invocation Invocation
      *
-     * @Around("@execution(GoSwoole\Plugins\Mysql\Annotation\Transactional)")
+     * @Around("@execution(ESD\Plugins\Mysql\Annotation\Transactional)")
      * @return mixed
-     * @throws \GoSwoole\BaseServer\Exception
+     * @throws \ESD\BaseServer\Exception
      * @throws \Throwable
      */
     public function aroundTransactional(MethodInvocation $invocation)
@@ -134,7 +134,7 @@ class MysqlAspect implements Aspect
      * @param MethodInvocation $invocation
      * @return mixed|null
      * @throws TransactionException
-     * @throws \GoSwoole\BaseServer\Exception
+     * @throws \ESD\BaseServer\Exception
      * @throws \Throwable
      */
     private function startTransaction(Transactional $transactional, \MysqliDb $db, MethodInvocation $invocation)

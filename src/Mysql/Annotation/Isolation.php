@@ -6,12 +6,12 @@
  * Time: 10:12
  */
 
-namespace GoSwoole\Plugins\Mysql\Annotation;
+namespace ESD\Plugins\Mysql\Annotation;
 
 /**
  * 事务隔离
  * Class Isolation
- * @package GoSwoole\Plugins\Mysql\Annotation
+ * @package ESD\Plugins\Mysql\Annotation
  */
 class Isolation
 {

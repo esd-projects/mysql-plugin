@@ -6,7 +6,7 @@
  * Time: 12:20
  */
 
-namespace GoSwoole\Plugins\Mysql;
+namespace ESD\Plugins\Mysql;
 
 
 class MysqliDb extends \MysqliDb

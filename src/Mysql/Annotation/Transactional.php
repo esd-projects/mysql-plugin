@@ -6,7 +6,7 @@
  * Time: 10:06
  */
 
-namespace GoSwoole\Plugins\Mysql\Annotation;
+namespace ESD\Plugins\Mysql\Annotation;
 
 
 use Doctrine\Common\Annotations\Annotation;

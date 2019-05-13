@@ -6,12 +6,12 @@
  * Time: 10:16
  */
 
-namespace GoSwoole\Plugins\Mysql\Annotation;
+namespace ESD\Plugins\Mysql\Annotation;
 
 /**
  * 传播行为
  * Class Propagation
- * @package GoSwoole\Plugins\Mysql\Annotation
+ * @package ESD\Plugins\Mysql\Annotation
  */
 class Propagation
 {

@@ -6,10 +6,10 @@
  * Time: 9:55
  */
 
-namespace GoSwoole\Plugins\Mysql;
+namespace ESD\Plugins\Mysql;
 
 
-use GoSwoole\BaseServer\Coroutine\Channel;
+use ESD\BaseServer\Coroutine\Channel;
 
 class MysqlPool
 {
@@ -40,7 +40,7 @@ class MysqlPool
 
     /**
      * @return MysqliDb
-     * @throws \GoSwoole\BaseServer\Exception
+     * @throws \ESD\BaseServer\Exception
      */
     public function db(): MysqliDb
     {

@@ -6,10 +6,10 @@
  * Time: 11:28
  */
 
-namespace GoSwoole\Plugins\Mysql;
+namespace ESD\Plugins\Mysql;
 
 
-use GoSwoole\BaseServer\Exception;
+use ESD\BaseServer\Exception;
 
 class TransactionException extends Exception
 {

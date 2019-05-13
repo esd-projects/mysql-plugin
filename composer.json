@@ -1,12 +1,12 @@
 {
   "require": {
-    "go-swoole/base-server":"~0.1",
+    "esd/base-server":"~0.1",
     "thingengineer/mysqli-database-class": "~2.9.2",
-    "go-swoole/aop-plugin":"~0.1"
+    "esd/aop-plugin":"~0.1"
   },
   "autoload": {
     "psr-4": {
-      "GoSwoole\\Plugins\\": "src/"
+      "ESD\\Plugins\\": "src/"
     }
   },
   "authors": [
@@ -16,7 +16,7 @@
       "homepage": "https://github.com/tmtbe"
     }
   ],
-  "name": "go-swoole/mysql-plugin",
+  "name": "esd/mysql-plugin",
   "type": "library",
   "keywords": ["server", "swoole"],
   "description": "mysql-plugin",

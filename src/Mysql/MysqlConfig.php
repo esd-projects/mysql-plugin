@@ -6,10 +6,10 @@
  * Time: 10:49
  */
 
-namespace GoSwoole\Plugins\Mysql;
+namespace ESD\Plugins\Mysql;
 
 
-use GoSwoole\BaseServer\Plugins\Config\BaseConfig;
+use ESD\BaseServer\Plugins\Config\BaseConfig;
 
 class MysqlConfig extends BaseConfig
 {

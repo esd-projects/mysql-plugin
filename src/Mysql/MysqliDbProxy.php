@@ -6,7 +6,7 @@
  * Time: 10:12
  */
 
-namespace GoSwoole\Plugins\Mysql;
+namespace ESD\Plugins\Mysql;
 
 
 class MysqliDbProxy

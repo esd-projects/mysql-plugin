@@ -6,14 +6,14 @@
  * Time: 10:30
  */
 
-namespace GoSwoole\Plugins\Mysql;
+namespace ESD\Plugins\Mysql;
 
-use GoSwoole\BaseServer\Plugins\Logger\GetLogger;
-use GoSwoole\BaseServer\Server\Context;
-use GoSwoole\BaseServer\Server\Plugin\AbstractPlugin;
-use GoSwoole\BaseServer\Server\Server;
-use GoSwoole\Plugins\Aop\AopPlugin;
-use GoSwoole\Plugins\Mysql\Aspect\MysqlAspect;
+use ESD\BaseServer\Plugins\Logger\GetLogger;
+use ESD\BaseServer\Server\Context;
+use ESD\BaseServer\Server\Plugin\AbstractPlugin;
+use ESD\BaseServer\Server\Server;
+use ESD\Plugins\Aop\AopPlugin;
+use ESD\Plugins\Mysql\Aspect\MysqlAspect;
 
 class MysqlPlugin extends AbstractPlugin
 {
@@ -42,7 +42,7 @@ class MysqlPlugin extends AbstractPlugin
      * 在服务启动前
      * @param Context $context
      * @return mixed
-     * @throws \GoSwoole\BaseServer\Server\Exception\ConfigException
+     * @throws \ESD\BaseServer\Server\Exception\ConfigException
      */
     public function beforeServerStart(Context $context)
     {
@@ -63,7 +63,7 @@ class MysqlPlugin extends AbstractPlugin
      * 在进程启动前
      * @param Context $context
      * @return mixed
-     * @throws \GoSwoole\BaseServer\Exception
+     * @throws \ESD\BaseServer\Exception
      * @throws \ReflectionException
      */
     public function beforeProcessStart(Context $context)
