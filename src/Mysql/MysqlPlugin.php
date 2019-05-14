@@ -12,6 +12,7 @@ use ESD\BaseServer\Plugins\Logger\GetLogger;
 use ESD\BaseServer\Server\Context;
 use ESD\BaseServer\Server\Plugin\AbstractPlugin;
 use ESD\BaseServer\Server\Server;
+use ESD\Plugins\Aop\AopConfig;
 use ESD\Plugins\Aop\AopPlugin;
 use ESD\Plugins\Mysql\Aspect\MysqlAspect;
 
@@ -38,6 +39,13 @@ class MysqlPlugin extends AbstractPlugin
         $this->atAfter(AopPlugin::class);
     }
 
+    public function init(Context $context)
+    {
+        parent::init($context);
+        $aopConfig = Server::$instance->getContainer()->get(AopConfig::class);
+        $aopConfig->addAspect(new MysqlAspect());
+    }
+
     /**
      * 在服务启动前
      * @param Context $context
@@ -53,10 +61,6 @@ class MysqlPlugin extends AbstractPlugin
         $mysqliDbProxy = new MysqliDbProxy();
         $this->setToDIContainer(\MysqliDb::class, $mysqliDbProxy);
         $this->setToDIContainer(MysqliDb::class, $mysqliDbProxy);
-        $aopPlugin = Server::$instance->getPlugManager()->getPlug(AopPlugin::class);
-        if ($aopPlugin instanceof AopPlugin) {
-            $aopPlugin->getAopConfig()->addAspect(new MysqlAspect());
-        }
     }
 
     /**
