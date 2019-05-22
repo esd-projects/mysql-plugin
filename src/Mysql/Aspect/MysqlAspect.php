@@ -9,17 +9,17 @@
 namespace ESD\Plugins\Mysql\Aspect;
 
 
-use Go\Aop\Aspect;
-use Go\Aop\Intercept\MethodInvocation;
-use Go\Lang\Annotation\Around;
 use ESD\BaseServer\Coroutine\Channel;
+use ESD\Plugins\Aop\OrderAspect;
 use ESD\Plugins\Mysql\Annotation\Isolation;
 use ESD\Plugins\Mysql\Annotation\Propagation;
 use ESD\Plugins\Mysql\Annotation\Transactional;
 use ESD\Plugins\Mysql\GetMysql;
 use ESD\Plugins\Mysql\TransactionException;
+use Go\Aop\Intercept\MethodInvocation;
+use Go\Lang\Annotation\Around;
 
-class MysqlAspect implements Aspect
+class MysqlAspect extends OrderAspect
 {
     use GetMysql;
 
@@ -176,5 +176,13 @@ class MysqlAspect implements Aspect
             throw $e;
         }
         return $result;
+    }
+
+    /**
+     * @return string
+     */
+    public function getName(): string
+    {
+        return "MysqlAspect";
     }
 }
