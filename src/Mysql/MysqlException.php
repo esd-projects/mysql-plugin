@@ -9,7 +9,7 @@
 namespace ESD\Plugins\Mysql;
 
 
-use ESD\BaseServer\Exception;
+use ESD\Core\Exception;
 
 class MysqlException extends Exception
 {

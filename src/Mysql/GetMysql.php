@@ -14,7 +14,7 @@ trait GetMysql
     /**
      * @param string $name
      * @return MysqliDb
-     * @throws \ESD\BaseServer\Exception
+     * @throws MysqlException
      */
     public function mysql($name = "default")
     {

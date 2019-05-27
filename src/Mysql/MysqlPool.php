@@ -9,7 +9,7 @@
 namespace ESD\Plugins\Mysql;
 
 
-use ESD\BaseServer\Coroutine\Channel;
+use ESD\Core\Channel\Channel;
 
 class MysqlPool
 {
@@ -26,12 +26,14 @@ class MysqlPool
      * MysqlPool constructor.
      * @param MysqlConfig $mysqlConfig
      * @throws MysqlException
+     * @throws \DI\DependencyException
+     * @throws \DI\NotFoundException
      */
     public function __construct(MysqlConfig $mysqlConfig)
     {
         $this->mysqlConfig = $mysqlConfig;
         $config = $mysqlConfig->buildConfig();
-        $this->pool = new Channel($mysqlConfig->getPoolMaxNumber());
+        $this->pool = DIGet(Channel::class, [$mysqlConfig->getPoolMaxNumber()]);
         for ($i = 0; $i < $mysqlConfig->getPoolMaxNumber(); $i++) {
             $db = new MysqliDb($config);
             $this->pool->push($db);
@@ -40,7 +42,6 @@ class MysqlPool
 
     /**
      * @return MysqliDb
-     * @throws \ESD\BaseServer\Exception
      */
     public function db(): MysqliDb
     {

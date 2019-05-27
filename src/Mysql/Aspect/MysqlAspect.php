@@ -9,7 +9,7 @@
 namespace ESD\Plugins\Mysql\Aspect;
 
 
-use ESD\BaseServer\Coroutine\Channel;
+use ESD\Core\Channel\Channel;
 use ESD\Plugins\Aop\OrderAspect;
 use ESD\Plugins\Mysql\Annotation\Isolation;
 use ESD\Plugins\Mysql\Annotation\Propagation;
@@ -28,7 +28,6 @@ class MysqlAspect extends OrderAspect
      *
      * @Around("@execution(ESD\Plugins\Mysql\Annotation\Transactional)")
      * @return mixed
-     * @throws \ESD\BaseServer\Exception
      * @throws \Throwable
      */
     public function aroundTransactional(MethodInvocation $invocation)
@@ -98,7 +97,7 @@ class MysqlAspect extends OrderAspect
             }
             if ($needNewGo) {
                 //需要创建一个新的协程来执行mysql
-                $channel = new Channel();
+                $channel = DIGet(Channel::class);
                 goWithContext(function () use ($transactional, $invocation, $needTransaction, $channel) {
                     $db = $this->mysql($transactional->name);
                     try {
@@ -134,7 +133,6 @@ class MysqlAspect extends OrderAspect
      * @param MethodInvocation $invocation
      * @return mixed|null
      * @throws TransactionException
-     * @throws \ESD\BaseServer\Exception
      * @throws \Throwable
      */
     private function startTransaction(Transactional $transactional, \MysqliDb $db, MethodInvocation $invocation)

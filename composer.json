@@ -1,8 +1,9 @@
 {
   "require": {
-    "esd/base-server":"~0.1",
-    "thingengineer/mysqli-database-class": "~2.9.2",
-    "esd/aop-plugin":"~0.1"
+    "esd/esd-core":"~0.1",
+    "esd/aop-plugin":"~0.1",
+
+    "thingengineer/mysqli-database-class": "~2.9.2"
   },
   "autoload": {
     "psr-4": {

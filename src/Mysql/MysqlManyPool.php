@@ -35,7 +35,6 @@ class MysqlManyPool
     /**
      * @return MysqliDb
      * @throws MysqlException
-     * @throws \ESD\BaseServer\Exception
      */
     public function db(): MysqliDb
     {

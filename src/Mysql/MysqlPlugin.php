@@ -8,10 +8,10 @@
 
 namespace ESD\Plugins\Mysql;
 
-use ESD\BaseServer\Plugins\Logger\GetLogger;
-use ESD\BaseServer\Server\Context;
-use ESD\BaseServer\Server\Plugin\AbstractPlugin;
-use ESD\BaseServer\Server\Server;
+use ESD\Core\Plugins\Logger\GetLogger;
+use ESD\Core\Context\Context;
+use ESD\Core\PlugIn\AbstractPlugin;
+use ESD\Core\Server\Server;
 use ESD\Plugins\Aop\AopConfig;
 use ESD\Plugins\Aop\AopPlugin;
 use ESD\Plugins\Mysql\Aspect\MysqlAspect;
@@ -39,18 +39,25 @@ class MysqlPlugin extends AbstractPlugin
         $this->atAfter(AopPlugin::class);
     }
 
+    /**
+     * @param Context $context
+     * @return mixed|void
+     * @throws \DI\DependencyException
+     * @throws \DI\NotFoundException
+     */
     public function init(Context $context)
     {
         parent::init($context);
-        $aopConfig = Server::$instance->getContainer()->get(AopConfig::class);
+        $aopConfig = DIget(AopConfig::class);
         $aopConfig->addAspect(new MysqlAspect());
     }
 
     /**
      * 在服务启动前
      * @param Context $context
-     * @return mixed
-     * @throws \ESD\BaseServer\Server\Exception\ConfigException
+     * @throws \DI\DependencyException
+     * @throws \DI\NotFoundException
+     * @throws \ESD\Core\Plugins\Config\ConfigException
      */
     public function beforeServerStart(Context $context)
     {
@@ -66,8 +73,9 @@ class MysqlPlugin extends AbstractPlugin
     /**
      * 在进程启动前
      * @param Context $context
-     * @return mixed
-     * @throws \ESD\BaseServer\Exception
+     * @throws MysqlException
+     * @throws \DI\DependencyException
+     * @throws \DI\NotFoundException
      * @throws \ReflectionException
      */
     public function beforeProcessStart(Context $context)
