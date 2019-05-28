@@ -9,10 +9,53 @@
 namespace ESD\Plugins\Mysql;
 
 
+use ESD\Core\Plugins\Logger\GetLogger;
+use ESD\Server\Co\Server;
+
 class MysqliDb extends \MysqliDb
 {
+    use GetLogger;
+
     public function isTransactionInProgress(): bool
     {
         return $this->_transaction_in_progress ?? false;
+    }
+
+    /**
+     * @return \MysqliDb
+     * @throws \DI\DependencyException
+     * @throws \DI\NotFoundException
+     */
+    public function reset()
+    {
+        $result = parent::reset();
+        if (Server::$instance->getServerConfig()->isDebug()) {
+            foreach ($result->trace as $trace) {
+                $this->debug($trace);
+            }
+        }
+        return $result;
+    }
+
+    /**
+     * @param string $connectionName
+     * @throws \Exception
+     */
+    public function connect($connectionName = 'default')
+    {
+        parent::connect($connectionName);
+        $this->debug("mysql connect $connectionName");
+    }
+
+    /**
+     * @param string $connection
+     * @throws \DI\DependencyException
+     * @throws \DI\NotFoundException
+     * @throws \Exception
+     */
+    public function disconnect($connection = 'default')
+    {
+        parent::disconnect($connection);
+        $this->debug("mysql disconnect $connection");
     }
 }
