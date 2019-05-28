@@ -6,12 +6,23 @@
  * Time: 14:36
  */
 
+use ESD\Core\Channel\Channel;
+use ESD\Core\DI\DI;
+use ESD\Core\Plugins\Event\EventCall;
+use ESD\Coroutine\Channel\ChannelFactory;
+use ESD\Coroutine\Co;
+use ESD\Coroutine\Event\EventCallFactory;
 use ESD\Plugins\Mysql\MysqlConfig;
 use ESD\Plugins\Mysql\MysqlPool;
 
 require __DIR__ . '/../vendor/autoload.php';
 
+Co::enableCo();
 enableRuntimeCoroutine();
+DI::$definitions = [
+    Channel::class => new ChannelFactory(),
+    EventCall::class => new EventCallFactory()
+];
 
 goWithContext(function () {
     $mysqlConfig = new MysqlConfig(
