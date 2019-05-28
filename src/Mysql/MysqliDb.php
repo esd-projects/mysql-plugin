@@ -16,6 +16,12 @@ class MysqliDb extends \MysqliDb
 {
     use GetLogger;
 
+    public function __construct($host = null, $username = null, $password = null, $db = null, $port = null, $charset = 'utf8', $socket = null)
+    {
+        parent::__construct($host, $username, $password, $db, $port, $charset, $socket);
+        $this->traceEnabled = Server::$instance->getServerConfig()->isDebug();
+    }
+
     public function isTransactionInProgress(): bool
     {
         return $this->_transaction_in_progress ?? false;
@@ -30,9 +36,8 @@ class MysqliDb extends \MysqliDb
     {
         $result = parent::reset();
         if (Server::$instance->getServerConfig()->isDebug()) {
-            foreach ($result->trace as $trace) {
-                $this->debug($trace);
-            }
+            $this->debug("Mysql query trace: " . $this->trace[0][0] ?? null);
+            $this->debug("Mysql query time: " . $this->trace[0][1]*1000 ." ms" ?? null);
         }
         return $result;
     }
