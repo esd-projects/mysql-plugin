@@ -1,7 +1,7 @@
 <?php
 
-use ESD\BaseServer\ExampleClass\Server\DefaultServer;
 use ESD\Plugins\Mysql\MysqlPlugin;
+use ESD\Server\Co\ExampleClass\DefaultServer;
 
 require __DIR__ . '/../vendor/autoload.php';
 

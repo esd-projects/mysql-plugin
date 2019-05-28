@@ -8,9 +8,11 @@
 
 namespace ESD\Plugins\Mysql;
 
-use ESD\Core\Plugins\Logger\GetLogger;
+use Doctrine\Common\Annotations\AnnotationReader;
 use ESD\Core\Context\Context;
 use ESD\Core\PlugIn\AbstractPlugin;
+use ESD\Core\PlugIn\PluginInterfaceManager;
+use ESD\Core\Plugins\Logger\GetLogger;
 use ESD\Core\Server\Server;
 use ESD\Plugins\Aop\AopConfig;
 use ESD\Plugins\Aop\AopPlugin;
@@ -36,20 +38,33 @@ class MysqlPlugin extends AbstractPlugin
     public function __construct()
     {
         parent::__construct();
+        AnnotationReader::addGlobalIgnoredName('params');
         $this->atAfter(AopPlugin::class);
     }
 
     /**
      * @param Context $context
      * @return mixed|void
-     * @throws \DI\DependencyException
-     * @throws \DI\NotFoundException
+     * @throws \Exception
      */
     public function init(Context $context)
     {
         parent::init($context);
         $aopConfig = DIget(AopConfig::class);
         $aopConfig->addAspect(new MysqlAspect());
+    }
+
+    /**
+     * @param PluginInterfaceManager $pluginInterfaceManager
+     * @return mixed|void
+     * @throws \DI\DependencyException
+     * @throws \ESD\Core\Exception
+     * @throws \ReflectionException
+     */
+    public function onAdded(PluginInterfaceManager $pluginInterfaceManager)
+    {
+        parent::onAdded($pluginInterfaceManager);
+        $pluginInterfaceManager->addPlug(new AopPlugin());
     }
 
     /**
