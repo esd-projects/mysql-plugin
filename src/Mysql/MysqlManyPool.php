@@ -14,16 +14,6 @@ class MysqlManyPool
     protected $poolList = [];
 
     /**
-     * 获取连接池
-     * @param $name
-     * @return MysqlPool|null
-     */
-    public function getPool($name = "default")
-    {
-        return $this->poolList[$name] ?? null;
-    }
-
-    /**
      * 添加连接池
      * @param MysqlPool $mysqlPool
      */
@@ -43,5 +33,15 @@ class MysqlManyPool
             throw new MysqlException("没有设置默认的mysql");
         }
         return $this->getPool()->db();
+    }
+
+    /**
+     * 获取连接池
+     * @param $name
+     * @return MysqlPool|null
+     */
+    public function getPool($name = "default")
+    {
+        return $this->poolList[$name] ?? null;
     }
 }

@@ -12,6 +12,7 @@ namespace ESD\Plugins\Mysql;
 class MysqliDbProxy
 {
     use GetMysql;
+
     public function __get($name)
     {
         return $this->mysql()->$name;

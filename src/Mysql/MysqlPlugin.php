@@ -26,6 +26,13 @@ class MysqlPlugin extends AbstractPlugin
      */
     protected $configList = [];
 
+    public function __construct()
+    {
+        parent::__construct();
+        AnnotationReader::addGlobalIgnoredName('params');
+        $this->atAfter(AopPlugin::class);
+    }
+
     /**
      * 获取插件名字
      * @return string
@@ -33,13 +40,6 @@ class MysqlPlugin extends AbstractPlugin
     public function getName(): string
     {
         return "Mysql";
-    }
-
-    public function __construct()
-    {
-        parent::__construct();
-        AnnotationReader::addGlobalIgnoredName('params');
-        $this->atAfter(AopPlugin::class);
     }
 
     /**
@@ -57,9 +57,7 @@ class MysqlPlugin extends AbstractPlugin
     /**
      * @param PluginInterfaceManager $pluginInterfaceManager
      * @return mixed|void
-     * @throws \DI\DependencyException
      * @throws \ESD\Core\Exception
-     * @throws \ReflectionException
      */
     public function onAdded(PluginInterfaceManager $pluginInterfaceManager)
     {
@@ -70,8 +68,6 @@ class MysqlPlugin extends AbstractPlugin
     /**
      * 在服务启动前
      * @param Context $context
-     * @throws \DI\DependencyException
-     * @throws \DI\NotFoundException
      * @throws \ESD\Core\Plugins\Config\ConfigException
      */
     public function beforeServerStart(Context $context)
@@ -89,9 +85,6 @@ class MysqlPlugin extends AbstractPlugin
      * 在进程启动前
      * @param Context $context
      * @throws MysqlException
-     * @throws \DI\DependencyException
-     * @throws \DI\NotFoundException
-     * @throws \ReflectionException
      */
     public function beforeProcessStart(Context $context)
     {

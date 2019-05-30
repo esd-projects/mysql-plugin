@@ -63,11 +63,10 @@ class MysqlConfig extends BaseConfig
      * @param string $charset
      * @param string $name
      * @param int $poolMaxNumber
-     * @throws \ReflectionException
      */
     public function __construct(string $host, string $username, string $password, string $db, string $prefix = "", int $port = 3306, string $charset = "utf8", string $name = "default", int $poolMaxNumber = 10)
     {
-        parent::__construct(self::key,true,"name");
+        parent::__construct(self::key, true, "name");
         $this->name = $name;
         $this->poolMaxNumber = $poolMaxNumber;
         $this->host = $host;
@@ -219,19 +218,19 @@ class MysqlConfig extends BaseConfig
         if ($this->poolMaxNumber < 1) {
             throw new MysqlException("poolMaxNumber必须大于1");
         }
-        if(empty($this->name)){
+        if (empty($this->name)) {
             throw new MysqlException("name必须设置");
         }
-        if(empty($this->host)){
+        if (empty($this->host)) {
             throw new MysqlException("host必须设置");
         }
-        if(empty($this->username)){
+        if (empty($this->username)) {
             throw new MysqlException("username必须设置");
         }
-        if(empty($this->password)){
+        if (empty($this->password)) {
             throw new MysqlException("password必须设置");
         }
-        if(empty($this->db)){
+        if (empty($this->db)) {
             throw new MysqlException("db必须设置");
         }
         return ['host' => $this->host,

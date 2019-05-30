@@ -26,8 +26,6 @@ class MysqlPool
      * MysqlPool constructor.
      * @param MysqlConfig $mysqlConfig
      * @throws MysqlException
-     * @throws \DI\DependencyException
-     * @throws \DI\NotFoundException
      */
     public function __construct(MysqlConfig $mysqlConfig)
     {

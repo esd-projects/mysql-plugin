@@ -29,15 +29,13 @@ class MysqliDb extends \MysqliDb
 
     /**
      * @return \MysqliDb
-     * @throws \DI\DependencyException
-     * @throws \DI\NotFoundException
      */
     public function reset()
     {
         $result = parent::reset();
         if (Server::$instance->getServerConfig()->isDebug()) {
             $this->debug("Mysql query trace: " . $this->trace[0][0] ?? null);
-            $this->debug("Mysql query time: " . $this->trace[0][1]*1000 ." ms" ?? null);
+            $this->debug("Mysql query time: " . $this->trace[0][1] * 1000 . " ms" ?? null);
         }
         return $result;
     }
@@ -54,8 +52,6 @@ class MysqliDb extends \MysqliDb
 
     /**
      * @param string $connection
-     * @throws \DI\DependencyException
-     * @throws \DI\NotFoundException
      * @throws \Exception
      */
     public function disconnect($connection = 'default')
