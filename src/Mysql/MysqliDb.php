@@ -69,21 +69,43 @@ class MysqliDb extends \MysqliDb implements DBInterface
         return "mysqli";
     }
 
-    public function startExecute($query)
-    {
-        return;
-    }
-
-    public function afterExecute()
-    {
-        return;
-    }
 
     public function rawQuery($query, $bindParams = null)
     {
-        $this->startExecute($query);
-        $result = parent::rawQuery($query, $bindParams);
-        $this->afterExecute();
-        return $result;
+        return $this->execute($query, function () use ($query) {
+            parent::rawQuery($query);
+        });
+    }
+
+    public function rollback()
+    {
+        return $this->execute("ROLLBACK", function () {
+            parent::rollback();
+        });
+    }
+
+    public function commit()
+    {
+        return $this->execute("COMMIT", function () {
+            parent::commit();
+        });
+    }
+
+    public function startTransaction()
+    {
+        return $this->execute("BEGIN", function () {
+            parent::startTransaction();
+        });
+    }
+
+    /**
+     * 执行代理
+     * @param $query
+     * @param callable|null $call
+     * @return mixed
+     */
+    public function execute($query, callable $call = null)
+    {
+        return $call();
     }
 }
