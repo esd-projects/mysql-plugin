@@ -64,48 +64,93 @@ class MysqliDb extends \MysqliDb implements DBInterface
         $this->debug("mysql disconnect $connection");
     }
 
-    public function getType(): string
+    public function getType()
     {
         return "mysqli";
     }
 
+    public function replace($tableName, $insertData)
+    {
+        return $this->execute(function () use ($tableName, $insertData) {
+            return parent::replace($tableName, $insertData);
+        });
+    }
+
+    public function insert($tableName, $insertData)
+    {
+        return $this->execute(function () use ($tableName, $insertData) {
+            return parent::insert($tableName, $insertData);
+        });
+    }
+
+    public function delete($tableName, $numRows = null)
+    {
+        return $this->execute(function () use ($tableName, $numRows) {
+            return parent::delete($tableName, $numRows);
+        });
+    }
+
+    public function update($tableName, $tableData, $numRows = null)
+    {
+        return $this->execute(function () use ($tableName, $tableData, $numRows) {
+            return parent::update($tableName, $tableData, $numRows);
+        });
+    }
+
+    public function get($tableName, $numRows = null, $columns = '*')
+    {
+        return $this->execute(function () use ($tableName, $numRows, $columns) {
+            return parent::get($tableName, $numRows, $columns);
+        });
+    }
+
+    public function query($query, $numRows = null)
+    {
+        return $this->execute(function () use ($query, $numRows) {
+            return parent::query($query, $numRows);
+        });
+    }
 
     public function rawQuery($query, $bindParams = null)
     {
-        return $this->execute($query, function () use ($query) {
-            parent::rawQuery($query);
+        return $this->execute(function () use ($query, $bindParams) {
+            return parent::rawQuery($query, $bindParams);
         });
     }
 
     public function rollback()
     {
-        return $this->execute("ROLLBACK", function () {
-            parent::rollback();
+        $this->_lastQuery = "ROLLBACK";
+        return $this->execute(function () {
+            return parent::rollback();
         });
     }
 
     public function commit()
     {
-        return $this->execute("COMMIT", function () {
-            parent::commit();
+        $this->_lastQuery = "COMMIT";
+        return $this->execute(function () {
+            return parent::commit();
         });
     }
 
     public function startTransaction()
     {
-        return $this->execute("BEGIN", function () {
+        $this->_lastQuery = "BEGIN";
+        return $this->execute(function () {
             parent::startTransaction();
         });
     }
 
     /**
      * 执行代理
-     * @param $query
      * @param callable|null $call
      * @return mixed
      */
-    public function execute($query, callable $call = null)
+    public function execute(callable $call = null)
     {
-        return $call();
+        if ($call != null) {
+            return $call();
+        }
     }
 }
