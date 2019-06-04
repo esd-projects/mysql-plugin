@@ -9,7 +9,7 @@
 namespace ESD\Plugins\Mysql;
 
 
-use ESD\Core\DB\DBInterface;
+use ESD\Psr\DB\DBInterface;
 use ESD\Core\Plugins\Logger\GetLogger;
 use ESD\Server\Co\Server;
 
