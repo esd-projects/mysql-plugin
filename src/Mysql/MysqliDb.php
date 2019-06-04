@@ -9,10 +9,11 @@
 namespace ESD\Plugins\Mysql;
 
 
+use ESD\Core\DB\DBInterface;
 use ESD\Core\Plugins\Logger\GetLogger;
 use ESD\Server\Co\Server;
 
-class MysqliDb extends \MysqliDb
+class MysqliDb extends \MysqliDb implements DBInterface
 {
     use GetLogger;
 
@@ -29,12 +30,14 @@ class MysqliDb extends \MysqliDb
 
     /**
      * @return \MysqliDb
+     * @throws \DI\DependencyException
+     * @throws \DI\NotFoundException
      */
     public function reset()
     {
         $result = parent::reset();
         if (Server::$instance->getServerConfig()->isDebug()) {
-            $num = count($this->trace)-1;
+            $num = count($this->trace) - 1;
             $this->debug("Mysql query trace: " . $this->trace[$num][0] ?? null);
             $this->debug("Mysql query time: " . $this->trace[$num][1] * 1000 . " ms" ?? null);
         }
@@ -59,5 +62,28 @@ class MysqliDb extends \MysqliDb
     {
         parent::disconnect($connection);
         $this->debug("mysql disconnect $connection");
+    }
+
+    public function getType(): string
+    {
+        return "mysqli";
+    }
+
+    public function startExecute($query)
+    {
+        return;
+    }
+
+    public function afterExecute()
+    {
+        return;
+    }
+
+    public function rawQuery($query, $bindParams = null)
+    {
+        $this->startExecute($query);
+        $result = parent::rawQuery($query, $bindParams);
+        $this->afterExecute();
+        return $result;
     }
 }
