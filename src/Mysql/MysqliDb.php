@@ -34,8 +34,9 @@ class MysqliDb extends \MysqliDb
     {
         $result = parent::reset();
         if (Server::$instance->getServerConfig()->isDebug()) {
-            $this->debug("Mysql query trace: " . $this->trace[0][0] ?? null);
-            $this->debug("Mysql query time: " . $this->trace[0][1] * 1000 . " ms" ?? null);
+            $num = count($this->trace)-1;
+            $this->debug("Mysql query trace: " . $this->trace[$num][0] ?? null);
+            $this->debug("Mysql query time: " . $this->trace[$num][1] * 1000 . " ms" ?? null);
         }
         return $result;
     }
