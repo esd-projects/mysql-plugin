@@ -9,11 +9,11 @@
 namespace ESD\Plugins\Mysql;
 
 
-use ESD\Psr\DB\DBInterface;
+use ESD\Core\Exception;
 use ESD\Core\Plugins\Logger\GetLogger;
 use ESD\Server\Co\Server;
 
-class MysqliDb extends \MysqliDb implements DBInterface
+class MysqliDb extends \MysqliDb
 {
     use GetLogger;
 
@@ -29,9 +29,44 @@ class MysqliDb extends \MysqliDb implements DBInterface
     }
 
     /**
+     * A method to connect to the database
+     *
+     * @param null|string $connectionName
+     * @throws \Exception
+     * @return void
+     */
+    public function connect($connectionName = 'default')
+    {
+        if (!isset($this->connectionsSettings[$connectionName]))
+            throw new Exception('Connection profile not set');
+
+        $pro = $this->connectionsSettings[$connectionName];
+        $params = array_values($pro);
+        $charset = array_pop($params);
+
+        if ($this->isSubQuery) {
+            return;
+        }
+
+        if (empty($pro['host']) && empty($pro['socket'])) {
+            throw new Exception('MySQL host or socket is not set');
+        }
+
+        $mysqli = new Mysqli($params);
+
+        if ($mysqli->connect_error) {
+            throw new Exception('Connect Error ' . $mysqli->connect_errno . ': ' . $mysqli->connect_error, $mysqli->connect_errno);
+        }
+
+        if (!empty($charset)) {
+            $mysqli->set_charset($charset);
+        }
+        $this->_mysqli[$connectionName] = $mysqli;
+        $this->debug("mysql connect $connectionName");
+    }
+
+    /**
      * @return \MysqliDb
-     * @throws \DI\DependencyException
-     * @throws \DI\NotFoundException
      */
     public function reset()
     {
@@ -42,16 +77,6 @@ class MysqliDb extends \MysqliDb implements DBInterface
             $this->debug("Mysql query time: " . $this->trace[$num][1] * 1000 . " ms" ?? null);
         }
         return $result;
-    }
-
-    /**
-     * @param string $connectionName
-     * @throws \Exception
-     */
-    public function connect($connectionName = 'default')
-    {
-        parent::connect($connectionName);
-        $this->debug("mysql connect $connectionName");
     }
 
     /**
@@ -67,90 +92,5 @@ class MysqliDb extends \MysqliDb implements DBInterface
     public function getType()
     {
         return "mysqli";
-    }
-
-    public function replace($tableName, $insertData)
-    {
-        return $this->execute(function () use ($tableName, $insertData) {
-            return parent::replace($tableName, $insertData);
-        });
-    }
-
-    public function insert($tableName, $insertData)
-    {
-        return $this->execute(function () use ($tableName, $insertData) {
-            return parent::insert($tableName, $insertData);
-        });
-    }
-
-    public function delete($tableName, $numRows = null)
-    {
-        return $this->execute(function () use ($tableName, $numRows) {
-            return parent::delete($tableName, $numRows);
-        });
-    }
-
-    public function update($tableName, $tableData, $numRows = null)
-    {
-        return $this->execute(function () use ($tableName, $tableData, $numRows) {
-            return parent::update($tableName, $tableData, $numRows);
-        });
-    }
-
-    public function get($tableName, $numRows = null, $columns = '*')
-    {
-        return $this->execute(function () use ($tableName, $numRows, $columns) {
-            return parent::get($tableName, $numRows, $columns);
-        });
-    }
-
-    public function query($query, $numRows = null)
-    {
-        return $this->execute(function () use ($query, $numRows) {
-            return parent::query($query, $numRows);
-        });
-    }
-
-    public function rawQuery($query, $bindParams = null)
-    {
-        return $this->execute(function () use ($query, $bindParams) {
-            return parent::rawQuery($query, $bindParams);
-        });
-    }
-
-    public function rollback()
-    {
-        $this->_lastQuery = "ROLLBACK";
-        return $this->execute(function () {
-            return parent::rollback();
-        });
-    }
-
-    public function commit()
-    {
-        $this->_lastQuery = "COMMIT";
-        return $this->execute(function () {
-            return parent::commit();
-        });
-    }
-
-    public function startTransaction()
-    {
-        $this->_lastQuery = "BEGIN";
-        return $this->execute(function () {
-            parent::startTransaction();
-        });
-    }
-
-    /**
-     * 执行代理
-     * @param callable|null $call
-     * @return mixed
-     */
-    public function execute(callable $call = null)
-    {
-        if ($call != null) {
-            return $call();
-        }
     }
 }
