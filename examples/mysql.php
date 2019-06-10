@@ -12,7 +12,7 @@ use ESD\Core\Plugins\Event\EventCall;
 use ESD\Coroutine\Channel\ChannelFactory;
 use ESD\Coroutine\Co;
 use ESD\Coroutine\Event\EventCallFactory;
-use ESD\Plugins\Mysql\MysqlConfig;
+use ESD\Plugins\Mysql\MysqlOneConfig;
 use ESD\Plugins\Mysql\MysqlPool;
 
 require __DIR__ . '/../vendor/autoload.php';
@@ -25,7 +25,7 @@ DI::$definitions = [
 ];
 
 goWithContext(function () {
-    $mysqlConfig = new MysqlConfig(
+    $mysqlConfig = new MysqlOneConfig(
         'mysql-aliyun.dev.svc.cluster.local',
         'huiyi',
         'huiyi@123',

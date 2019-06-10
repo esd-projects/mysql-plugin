@@ -18,16 +18,16 @@ class MysqlPool
      */
     protected $pool;
     /**
-     * @var MysqlConfig
+     * @var MysqlOneConfig
      */
     protected $mysqlConfig;
 
     /**
      * MysqlPool constructor.
-     * @param MysqlConfig $mysqlConfig
+     * @param MysqlOneConfig $mysqlConfig
      * @throws MysqlException
      */
-    public function __construct(MysqlConfig $mysqlConfig)
+    public function __construct(MysqlOneConfig $mysqlConfig)
     {
         $this->mysqlConfig = $mysqlConfig;
         $config = $mysqlConfig->buildConfig();
@@ -55,17 +55,17 @@ class MysqlPool
     }
 
     /**
-     * @return MysqlConfig
+     * @return MysqlOneConfig
      */
-    public function getMysqlConfig(): MysqlConfig
+    public function getMysqlConfig(): MysqlOneConfig
     {
         return $this->mysqlConfig;
     }
 
     /**
-     * @param MysqlConfig $mysqlConfig
+     * @param MysqlOneConfig $mysqlConfig
      */
-    public function setMysqlConfig(MysqlConfig $mysqlConfig): void
+    public function setMysqlConfig(MysqlOneConfig $mysqlConfig): void
     {
         $this->mysqlConfig = $mysqlConfig;
     }

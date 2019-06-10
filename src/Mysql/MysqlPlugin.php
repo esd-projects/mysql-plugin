@@ -22,13 +22,15 @@ class MysqlPlugin extends AbstractPlugin
 {
     use GetLogger;
     /**
-     * @var MysqlConfig[]
+     * @var MysqlConfig
      */
-    protected $configList = [];
+    protected $mysqlConfig;
 
     public function __construct()
     {
         parent::__construct();
+        $this->mysqlConfig = new MysqlConfig();
+        $this->mysqlConfig->setMysqlConfigs([]);
         AnnotationReader::addGlobalIgnoredName('params');
         $this->atAfter(AopPlugin::class);
     }
@@ -57,7 +59,10 @@ class MysqlPlugin extends AbstractPlugin
     /**
      * @param PluginInterfaceManager $pluginInterfaceManager
      * @return mixed|void
+     * @throws \DI\DependencyException
+     * @throws \DI\NotFoundException
      * @throws \ESD\Core\Exception
+     * @throws \ReflectionException
      */
     public function onAdded(PluginInterfaceManager $pluginInterfaceManager)
     {
@@ -69,16 +74,24 @@ class MysqlPlugin extends AbstractPlugin
      * 在服务启动前
      * @param Context $context
      * @throws \ESD\Core\Plugins\Config\ConfigException
+     * @throws \ReflectionException
      */
     public function beforeServerStart(Context $context)
     {
         //所有配置合併
-        foreach ($this->configList as $config) {
+        foreach ($this->mysqlConfig->getMysqlConfigs() as $config) {
             $config->merge();
+        }
+        $configs = Server::$instance->getConfigContext()->get(MysqlOneConfig::key, []);
+        foreach ($configs as $key => $value) {
+            $mysqlOneConfig = new MysqlOneConfig("", "", "", "");
+            $mysqlOneConfig->setName($key);
+            $this->mysqlConfig->addMysqlOneConfig($mysqlOneConfig->buildFromConfig($value));
         }
         $mysqliDbProxy = new MysqliDbProxy();
         $this->setToDIContainer(\MysqliDb::class, $mysqliDbProxy);
         $this->setToDIContainer(MysqliDb::class, $mysqliDbProxy);
+        $this->setToDIContainer(MysqlConfig::class, $this->mysqlConfig);
     }
 
     /**
@@ -89,19 +102,14 @@ class MysqlPlugin extends AbstractPlugin
     public function beforeProcessStart(Context $context)
     {
         $mysqlManyPool = new MysqlManyPool();
-        //重新获取配置
-        $this->configList = [];
-        $configs = Server::$instance->getConfigContext()->get(MysqlConfig::key, []);
-        if (empty($configs)) {
+        if (empty($this->mysqlConfig->getMysqlConfigs())) {
             $this->warn("没有mysql配置");
         }
-        foreach ($configs as $key => $value) {
-            $mysqlConfig = new MysqlConfig("", "", "", "");
-            $mysqlConfig->setName($key);
-            $this->configList[$key] = $mysqlConfig->buildFromConfig($value);
-            $mysqlPool = new MysqlPool($mysqlConfig);
+        foreach ($this->mysqlConfig->getMysqlConfigs() as $key => $value) {
+            $this->mysqlConfig->addMysqlOneConfig($value);
+            $mysqlPool = new MysqlPool($value);
             $mysqlManyPool->addPool($mysqlPool);
-            $this->debug("已添加名为 {$mysqlConfig->getName()} 的Mysql连接池");
+            $this->debug("已添加名为 {$value->getName()} 的Mysql连接池");
         }
         $context->add("mysqlPool", $mysqlManyPool);
         $this->setToDIContainer(MysqlManyPool::class, $mysqlManyPool);
@@ -110,26 +118,26 @@ class MysqlPlugin extends AbstractPlugin
     }
 
     /**
-     * @return MysqlConfig[]
+     * @return MysqlOneConfig[]
      */
     public function getConfigList(): array
     {
-        return $this->configList;
+        return $this->mysqlConfig->getMysqlConfigs();
     }
 
     /**
-     * @param MysqlConfig[] $configList
+     * @param MysqlOneConfig[] $configList
      */
     public function setConfigList(array $configList): void
     {
-        $this->configList = $configList;
+        $this->mysqlConfig->setMysqlConfigs($configList);
     }
 
     /**
-     * @param MysqlConfig $mysqlConfig
+     * @param MysqlOneConfig $mysqlOneConfig
      */
-    public function addConfigList(MysqlConfig $mysqlConfig): void
+    public function addConfigList(MysqlOneConfig $mysqlOneConfig): void
     {
-        $this->configList[$mysqlConfig->getName()] = $mysqlConfig;
+        $this->mysqlConfig->addMysqlOneConfig($mysqlOneConfig);
     }
 }
