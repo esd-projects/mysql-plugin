@@ -60,7 +60,6 @@ class MysqlPlugin extends AbstractPlugin
      * @param PluginInterfaceManager $pluginInterfaceManager
      * @return mixed|void
      * @throws \DI\DependencyException
-     * @throws \DI\NotFoundException
      * @throws \ESD\Core\Exception
      * @throws \ReflectionException
      */
@@ -73,8 +72,7 @@ class MysqlPlugin extends AbstractPlugin
     /**
      * 在服务启动前
      * @param Context $context
-     * @throws \ESD\Core\Plugins\Config\ConfigException
-     * @throws \ReflectionException
+     * @throws \Exception
      */
     public function beforeServerStart(Context $context)
     {
@@ -98,6 +96,7 @@ class MysqlPlugin extends AbstractPlugin
      * 在进程启动前
      * @param Context $context
      * @throws MysqlException
+     * @throws \Exception
      */
     public function beforeProcessStart(Context $context)
     {
@@ -106,7 +105,6 @@ class MysqlPlugin extends AbstractPlugin
             $this->warn("没有mysql配置");
         }
         foreach ($this->mysqlConfig->getMysqlConfigs() as $key => $value) {
-            $this->mysqlConfig->addMysqlOneConfig($value);
             $mysqlPool = new MysqlPool($value);
             $mysqlManyPool->addPool($mysqlPool);
             $this->debug("已添加名为 {$value->getName()} 的Mysql连接池");
