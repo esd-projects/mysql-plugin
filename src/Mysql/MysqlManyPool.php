@@ -32,7 +32,7 @@ class MysqlManyPool
         if ($default == null) {
             throw new MysqlException("没有设置默认的mysql");
         }
-        return $this->getPool()->db();
+        return $default->db();
     }
 
     /**

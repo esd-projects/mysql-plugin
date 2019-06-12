@@ -20,13 +20,11 @@ trait GetMysql
     {
         $db = getContextValue("MysqliDb:$name");
         if ($db == null) {
+            /** @var MysqlManyPool $mysqlPool */
             $mysqlPool = getDeepContextValueByClassName(MysqlManyPool::class);
-            if ($mysqlPool instanceof MysqlManyPool) {
-                $db = $mysqlPool->getPool($name)->db();
-                return $db;
-            } else {
-                throw new MysqlException("没有找到名为{$name}的mysql连接池");
-            }
+            $pool = $mysqlPool->getPool($name);
+            if ($pool == null) throw new MysqlException("没有找到名为{$name}的mysql连接池");
+            return $pool->db();
         } else {
             return $db;
         }
