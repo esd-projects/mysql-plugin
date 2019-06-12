@@ -214,25 +214,25 @@ class MysqlOneConfig extends BaseConfig
     public function buildConfig()
     {
         if (!extension_loaded('mysqli')) {
-            throw new MysqlException("缺少mysqli扩展");
+            throw new MysqlException("Lack of mysqli expansion");
         }
         if ($this->poolMaxNumber < 1) {
-            throw new MysqlException("poolMaxNumber必须大于1");
+            throw new MysqlException("PoolMaxNumber must be greater than 1");
         }
         if (empty($this->name)) {
-            throw new MysqlException("name必须设置");
+            throw new MysqlException("name must be set");
         }
         if (empty($this->host)) {
-            throw new MysqlException("host必须设置");
+            throw new MysqlException("host must be set");
         }
         if (empty($this->username)) {
-            throw new MysqlException("username必须设置");
+            throw new MysqlException("username must be set");
         }
         if (empty($this->password)) {
-            throw new MysqlException("password必须设置");
+            throw new MysqlException("password must be set");
         }
         if (empty($this->db)) {
-            throw new MysqlException("db必须设置");
+            throw new MysqlException("db must be set");
         }
         return ['host' => $this->host,
             'username' => $this->username,

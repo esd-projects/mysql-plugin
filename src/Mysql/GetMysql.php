@@ -23,7 +23,7 @@ trait GetMysql
             /** @var MysqlManyPool $mysqlPool */
             $mysqlPool = getDeepContextValueByClassName(MysqlManyPool::class);
             $pool = $mysqlPool->getPool($name);
-            if ($pool == null) throw new MysqlException("没有找到名为{$name}的mysql连接池");
+            if ($pool == null) throw new MysqlException("No MySQL connection pool named {$name} was found");
             return $pool->db();
         } else {
             return $db;

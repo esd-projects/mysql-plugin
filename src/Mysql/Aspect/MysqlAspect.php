@@ -61,7 +61,7 @@ class MysqlAspect extends OrderAspect
                      * 如果当前没有事务，则抛出异常。
                      */
                     if (!$_transaction_in_progress) {
-                        throw new TransactionException("Propagation::MANDATORY传播模式下当前没有事务");
+                        throw new TransactionException("Propagation::MANDATORY Currently there are no transactions in propagation mode");
                     }
                     break;
                 case Propagation::REQUIRES_NEW:
@@ -86,14 +86,14 @@ class MysqlAspect extends OrderAspect
                      */
                     $needTransaction = false;
                     if ($_transaction_in_progress) {
-                        throw new TransactionException("Propagation::NEVER传播模式下当前不能存在事务");
+                        throw new TransactionException("Propagation::NEVER Transactions cannot currently exist in propagation mode");
                     }
                     break;
                 case Propagation::NESTED:
-                    throw new TransactionException("Propagation::NESTED 暂不支持");
+                    throw new TransactionException("Propagation::NESTED Not yet supported");
                     break;
                 default:
-                    throw new TransactionException("propagation设置不正确");
+                    throw new TransactionException("propagation Incorrect settings");
             }
             if ($needNewGo) {
                 //需要创建一个新的协程来执行mysql
@@ -154,7 +154,7 @@ class MysqlAspect extends OrderAspect
                 $this->mysql($transactional->name)->rawQuery("set session transaction isolation level serializable;");
                 break;
             default:
-                throw new TransactionException("isolation设置不正确");
+                throw new TransactionException("isolation Incorrect settings");
         }
         $db->startTransaction();
         $result = null;
